@@ -1,6 +1,6 @@
 ---
 title: "STAT/MATH 495: Problem Set 01"
-author: "WRITE YOUR NAME HERE"
+author: "Leonard Yoon"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output:
   html_document:
@@ -14,8 +14,20 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, fig.width=8, fig.height=4.5)
 
-# Load packages
 library(tidyverse)
 ```
 
+```{r}
+# Load train, test and submission from master
+train <- read_csv("https://rudeboybert.github.io/STAT495/static/Titanic/train.csv")
+test <- read_csv("https://rudeboybert.github.io/STAT495/static/Titanic/test.csv")
+submission <- read_csv("https://rudeboybert.github.io/STAT495/static/Titanic/gender_submission.csv")
+```
 
+```{r}
+# predict survive if Pclass is 1
+test$Survived <- as.integer(ifelse(test$Pclass == 1, 1, 0))
+# if Pclass is 1, Survived is 1
+submission <- test[-c(2:12)]
+write.csv(submission, file = "submission.csv", row.names = FALSE)
+```
